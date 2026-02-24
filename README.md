@@ -1,16 +1,16 @@
-## EXNO-3-DS
+# EXNO-3-DS
 
-# AIM:
+## AIM:
 To read the given data and perform Feature Encoding and Transformation process and save the data to a file.
 
-# ALGORITHM:
+## ALGORITHM:
 STEP 1:Read the given Data.
 STEP 2:Clean the Data Set using Data Cleaning Process.
 STEP 3:Apply Feature Encoding for the feature in the data set.
 STEP 4:Apply Feature Transformation for the feature in the data set.
 STEP 5:Save the data to the file.
 
-# FEATURE ENCODING:
+## FEATURE ENCODING:
 1. Ordinal Encoding
 An ordinal encoding involves mapping each unique label to an integer value. This type of encoding is really only appropriate if there is a known relationship between the categories. This relationship does exist for some of the variables in our dataset, and ideally, this should be harnessed when preparing the data.
 2. Label Encoding
@@ -20,19 +20,84 @@ Binary encoding converts a category into binary digits. Each binary digit create
 4. One Hot Encoding
 We use this categorical data encoding technique when the features are nominal(do not have any order). In one hot encoding, for each level of a categorical feature, we create a new variable. Each category is mapped with a binary variable containing either 0 or 1. Here, 0 represents the absence, and 1 represents the presence of that category.
 
-# Methods Used for Data Transformation:
-  # 1. FUNCTION TRANSFORMATION
+## Methods Used for Data Transformation:
+  ### 1. FUNCTION TRANSFORMATION
 • Log Transformation
 • Reciprocal Transformation
 • Square Root Transformation
 • Square Transformation
-  # 2. POWER TRANSFORMATION
+  ### 2. POWER TRANSFORMATION
 • Boxcox method
 • Yeojohnson method
 
-# CODING AND OUTPUT:
-       # INCLUDE YOUR CODING AND OUTPUT SCREENSHOTS HERE
-# RESULT:
-       # INCLUDE YOUR RESULT HERE
+## CODING:
+```
+
+# Step 1: Import Necessary Libraries
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import LabelEncoder, StandardScaler, PowerTransformer
+from scipy.stats import boxcox
+
+# Step 2: Load the Dataset
+data = pd.read_csv('Dataset\Data_to_Transform.csv')
+
+print("Original Dataset:")
+print(data.head())
+
+# Step 3: Handle Missing Values (Fill numeric columns with mean)
+data.fillna(data.mean(numeric_only=True), inplace=True)
+
+# Select a suitable numeric column for transformation
+numeric_column = data.select_dtypes(include=np.number).columns[0]
+
+print(f"\nColumn Selected for Transformation: {numeric_column}")
+
+# Keep only positive values for log and boxcox
+positive_data = data[data[numeric_column] > 0].copy()
+
+# Step 4: Log Transformation
+positive_data['Log_Transform'] = np.log(positive_data[numeric_column])
+
+# Step 5: Reciprocal Transformation
+positive_data['Reciprocal_Transform'] = 1 / positive_data[numeric_column]
+
+# Step 6: Square Root Transformation
+positive_data['Sqrt_Transform'] = np.sqrt(positive_data[numeric_column])
+
+# Step 7: Square Transformation
+positive_data['Square_Transform'] = np.square(positive_data[numeric_column])
+
+# Step 8: Box-Cox Transformation (only positive values)
+positive_data['BoxCox_Transform'], lambda_value = boxcox(positive_data[numeric_column])
+
+print(f"\nBox-Cox Lambda Value: {lambda_value}")
+
+# Step 9: Yeo-Johnson Transformation (works with zero/negative values)
+pt = PowerTransformer(method='yeo-johnson')
+data['YeoJohnson_Transform'] = pt.fit_transform(data[[numeric_column]])
+
+# Standard Scaling
+scaler = StandardScaler()
+data['Standard_Scaled'] = scaler.fit_transform(data[[numeric_column]])
+
+# Save the transformed dataset
+positive_data.to_csv('Transformed_Positive_Data.csv', index=False)
+data.to_csv('Transformed_Full_Data.csv', index=False)
+
+print("\nTransformation Completed Successfully.")
+print("\nTransformed Dataset Preview:")
+print(positive_data.head())
+
+
+```
+## OUTPUT:
+
+<img width="1122" height="739" alt="image" src="https://github.com/user-attachments/assets/460a760a-589c-4500-a83f-c31f0231991c" />
+
+
+## RESULT:
+  Successfully performed Feature Encoding and Transformation process
+
 
        

@@ -1,16 +1,16 @@
-# EXNO-3-DS
+## EXNO-3-DS
 
-## AIM:
+# AIM:
 To read the given data and perform Feature Encoding and Transformation process and save the data to a file.
 
-## ALGORITHM:
+# ALGORITHM:
 STEP 1:Read the given Data.
 STEP 2:Clean the Data Set using Data Cleaning Process.
 STEP 3:Apply Feature Encoding for the feature in the data set.
 STEP 4:Apply Feature Transformation for the feature in the data set.
 STEP 5:Save the data to the file.
 
-## FEATURE ENCODING:
+# FEATURE ENCODING:
 1. Ordinal Encoding
 An ordinal encoding involves mapping each unique label to an integer value. This type of encoding is really only appropriate if there is a known relationship between the categories. This relationship does exist for some of the variables in our dataset, and ideally, this should be harnessed when preparing the data.
 2. Label Encoding
@@ -20,84 +20,28 @@ Binary encoding converts a category into binary digits. Each binary digit create
 4. One Hot Encoding
 We use this categorical data encoding technique when the features are nominal(do not have any order). In one hot encoding, for each level of a categorical feature, we create a new variable. Each category is mapped with a binary variable containing either 0 or 1. Here, 0 represents the absence, and 1 represents the presence of that category.
 
-## Methods Used for Data Transformation:
-  ### 1. FUNCTION TRANSFORMATION
+# Methods Used for Data Transformation:
+  # 1. FUNCTION TRANSFORMATION
 • Log Transformation
 • Reciprocal Transformation
 • Square Root Transformation
 • Square Transformation
-  ### 2. POWER TRANSFORMATION
+  # 2. POWER TRANSFORMATION
 • Boxcox method
 • Yeojohnson method
 
-## CODING:
-```
+# CODING AND OUTPUT:
 
-# Step 1: Import Necessary Libraries
-import pandas as pd
-import numpy as np
-from sklearn.preprocessing import LabelEncoder, StandardScaler, PowerTransformer
-from scipy.stats import boxcox
+<img width="1789" height="621" alt="Screenshot 2026-02-24 135202" src="https://github.com/user-attachments/assets/a8326d1c-eeb1-42e6-833a-0611d673fe1e" />
+<img width="1796" height="523" alt="Screenshot 2026-02-24 135218" src="https://github.com/user-attachments/assets/b8a6efb9-a425-4ffb-a716-983c6b5cbdfc" />
+<img width="1798" height="795" alt="Screenshot 2026-02-24 135050" src="https://github.com/user-attachments/assets/cafae942-94e5-4011-9ad3-8a9929af120a" />
+<img width="1792" height="828" alt="Screenshot 2026-02-24 135106" src="https://github.com/user-attachments/assets/7c8cf400-c5de-437c-876d-724d6deb8b62" />
+<img width="791" height="505" alt="Screenshot 2026-02-24 135118" src="https://github.com/user-attachments/assets/914be490-d250-48ca-8be4-1355d2d43cc7" />
+<img width="1779" height="767" alt="Screenshot 2026-02-24 135134" src="https://github.com/user-attachments/assets/fd9acef3-83d0-45eb-bf86-b9bab08be2ef" />
+<img width="1789" height="721" alt="Screenshot 2026-02-24 135148" src="https://github.com/user-attachments/assets/0ff3e2f4-87a7-4140-a581-20694b45d2ad" />
 
-# Step 2: Load the Dataset
-data = pd.read_csv('Dataset\Data_to_Transform.csv')
-
-print("Original Dataset:")
-print(data.head())
-
-# Step 3: Handle Missing Values (Fill numeric columns with mean)
-data.fillna(data.mean(numeric_only=True), inplace=True)
-
-# Select a suitable numeric column for transformation
-numeric_column = data.select_dtypes(include=np.number).columns[0]
-
-print(f"\nColumn Selected for Transformation: {numeric_column}")
-
-# Keep only positive values for log and boxcox
-positive_data = data[data[numeric_column] > 0].copy()
-
-# Step 4: Log Transformation
-positive_data['Log_Transform'] = np.log(positive_data[numeric_column])
-
-# Step 5: Reciprocal Transformation
-positive_data['Reciprocal_Transform'] = 1 / positive_data[numeric_column]
-
-# Step 6: Square Root Transformation
-positive_data['Sqrt_Transform'] = np.sqrt(positive_data[numeric_column])
-
-# Step 7: Square Transformation
-positive_data['Square_Transform'] = np.square(positive_data[numeric_column])
-
-# Step 8: Box-Cox Transformation (only positive values)
-positive_data['BoxCox_Transform'], lambda_value = boxcox(positive_data[numeric_column])
-
-print(f"\nBox-Cox Lambda Value: {lambda_value}")
-
-# Step 9: Yeo-Johnson Transformation (works with zero/negative values)
-pt = PowerTransformer(method='yeo-johnson')
-data['YeoJohnson_Transform'] = pt.fit_transform(data[[numeric_column]])
-
-# Standard Scaling
-scaler = StandardScaler()
-data['Standard_Scaled'] = scaler.fit_transform(data[[numeric_column]])
-
-# Save the transformed dataset
-positive_data.to_csv('Transformed_Positive_Data.csv', index=False)
-data.to_csv('Transformed_Full_Data.csv', index=False)
-
-print("\nTransformation Completed Successfully.")
-print("\nTransformed Dataset Preview:")
-print(positive_data.head())
-
-
-```
-## OUTPUT:
-
-<img width="1122" height="739" alt="image" src="https://github.com/user-attachments/assets/460a760a-589c-4500-a83f-c31f0231991c" />
-
-
-## RESULT:
-  Successfully performed Feature Encoding and Transformation process
-
+       
+# RESULT:
+       The output has been verified successfully
 
        
